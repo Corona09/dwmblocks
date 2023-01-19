@@ -17,7 +17,7 @@
 
 /* delimiter specified as an array of characters
  * (don't remove DELIMITERENDCHAR at the end) */
-static const char delimiter[] = { ' ', ' ', ' ', DELIMITERENDCHAR };
+static const char delimiter[] = { ' ', ' ', DELIMITERENDCHAR };
 
 #include "block.h"
 
@@ -44,8 +44,8 @@ static const char delimiter[] = { ' ', ' ', ' ', DELIMITERENDCHAR };
 static Block blocks[] = {
 /*      pathu                           pathc                           interval        signal */
         { PATH("battery.sh"),           PATH("battery_click.sh"),       1,              1},
-        { PATH("backlight.sh"),         NULL,                           1,              2},
-        { PATH("volume.sh"),            PATH("volume_click.sh"),        1,              3},
+        { PATH("backlight.sh"),         PATH("backlight_click.sh"),     0,              2},
+        { PATH("volume.sh"),            PATH("volume_click.sh"),        0,              3},
         { PATH("datetime.sh"),          PATH("datetime_click.sh"),      1,              4},
         { PATH("launcher.sh"),          PATH("launcher_click.sh"),      0,              5},
         { NULL } /* just to mark the end of the array */
