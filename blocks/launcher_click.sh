@@ -3,18 +3,32 @@
 echo $1 > $HOME/Downloads/sig.txt
 
 case $1 in
-	2)
-		feh --randomize --bg-fill $HOME/Pictures/wallpaper
-		;;
-	3)
-		dwm-powermenu
-		;;
-	*)
+	1)
+		# 左键点击, 程序菜单
 		[[ -f "$HOME/.cache/dmenu-applications" ]] && {
 			cat "$HOME/.cache/dmenu-applications" | dmenu | ${SHELL:-"/bin/sh"} &
 		} || {
 			dmenu_run "$@"
 		}
+		;;
+	2)
+		# 中键点击, 随机壁纸
+		dwm-wallpaper random
+		;;
+	3)
+		# 右键点击, 电源菜单
+		dwm-powermenu
+		;;
+	4)
+		# 鼠标滑轮上滑, 切换上一张壁纸
+		dwm-wallpaper prev
+		;;
+	5)
+		# 鼠标滑轮下滑, 切花下一张壁纸
+		dwm-wallpaper
+		;;
+	*)
+		# 未知信号
 		;;
 esac
 
