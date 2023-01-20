@@ -1,6 +1,9 @@
 #!/bin/sh
 
 case $1 in
+	2)
+		feh --randomize --bg-fill $HOME/Pictures/wallpaper
+		;;
 	3)
 		dwm-powermenu
 		;;
