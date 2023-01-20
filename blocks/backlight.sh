@@ -14,4 +14,9 @@ else
 		icon=" "
 	fi
 fi
-printf "$icon$brightness%%"
+
+if [[ $brightness -lt 10 ]]; then
+	printf "${icon}0$brightness%%"
+else
+	printf "$icon$brightness%%"
+fi

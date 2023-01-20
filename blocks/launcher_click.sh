@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo $1 > $HOME/Downloads/sig.txt
+
 case $1 in
 	2)
 		feh --randomize --bg-fill $HOME/Pictures/wallpaper

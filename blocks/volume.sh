@@ -15,7 +15,7 @@ indicator=" "
 if [ "$VOL" -eq 0 ]; then
 	printf "婢  0%%"
 elif [ "$VOL" -gt 0 ] && [ "$VOL" -le 9 ]; then
-	printf "$indicator %s%%" "$VOL"
+	printf "${indicator}0%s%%" "$VOL"
 else
 	printf "$indicator%s%%" "$VOL"
 fi
