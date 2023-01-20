@@ -1,11 +1,13 @@
 #!/bin/sh
 
-status=`amixer get Master | tail -n1 | awk -F ' ' '{print $NF}'`
+master_status=`amixer get Master | tail -n1 | awk -F ' ' '{print $NF}'`
+speaker_status=`amixer get Speaker | tail -n1 | awk -F ' ' '{print $NF}'`
 
-if [ "$status" = "[off]" ]; then
+if [ "$master_status" = "[off]" ] || [ "$speaker_status" = "[off]" ]; then
 	printf "婢 ---"
 	exit 0
 fi
+
 
 VOL=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
 indicator=" "
