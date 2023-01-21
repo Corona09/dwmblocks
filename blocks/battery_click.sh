@@ -1,41 +1,40 @@
 #!/bin/sh
 
-read -r rate </sys/class/power_supply/BAT0/current_now
-[ "$rate" = 0 ] && notify-send "Battery fully charged" && exit
+charing=$(acpi | awk '{print $3}' | sed 's/,//')
 
-read -r ac </sys/class/power_supply/AC/online
-read -r charge_now </sys/class/power_supply/BAT0/charge_now
+if [[ "$charing" = "Charging" ]]; then
+	t=$(acpi | awk '{print $(NF-2)}')
+	h=$(echo "$t" | awk -F ':' '{print $1}')
+	m=$(echo "$t" | awk -F ':' '{print $2}')
 
-if [ "$ac" = 1 ] ; then
-    read -r charge_full </sys/class/power_supply/BAT0/charge_full
-    val="$(( charge_full-charge_now ))"
+	h=$((h+0))
+	m=$((m+0))
+	icon="🔌"
+	msg="充电中:"
+
+	if [[ $h -gt 0 ]]; then
+		msg="$msg $h 小时"
+	fi
+	if [[ $m -gt 0 ]]; then
+		msg="$msg $m 分钟"
+	fi
+	msg="$msg后充满"
 else
-    val="$charge_now"
+	t=$(acpi | awk '{print $(NF-1)}')
+	h=$(echo "$t" | awk -F ':' '{print $1}')
+	m=$(echo "$t" | awk -F ':' '{print $2}')
+
+	h=$((h+0))
+	m=$((m+0))
+	icon="🔋"
+	msg="放电中, 电池剩余"
+
+	if [[ $h -gt 0 ]]; then
+		msg="$msg $h 小时"
+	fi
+	if [[ $m -gt 0 ]]; then
+		msg="$msg $m 分钟"
+	fi
 fi
 
-hr="$(( val / rate ))"
-mn="$(( (val * 60) / rate - hr * 60 ))"
-
-case "$hr" in
-    0)
-        case "$mn" in
-            0) notify-send "Battery fully charged" ;;
-            1) notify-send "1 minute remaining" ;;
-            *) notify-send "$mn minutes remaining" ;;
-        esac
-        ;;
-    1)
-        case "$mn" in
-            0) notify-send "1 hour remaining" ;;
-            1) notify-send "1 hour, 1 minute remaining" ;;
-            *) notify-send "1 hour, $mn minutes remaining" ;;
-        esac
-        ;;
-    *)
-        case "$mn" in
-            0) notify-send "$hr hours remaining" ;;
-            1) notify-send "$hr hours, 1 minute remaining" ;;
-            *) notify-send "$hr hours, $mn minutes remaining" ;;
-        esac
-        ;;
-esac
+notify-send -t 3000 "$icon $msg"
