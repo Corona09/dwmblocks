@@ -16,7 +16,7 @@ case $1 in
 		temp=`xgetcolortemp.sh`
 		if [[ `echo "$temp >= 0.5" | bc` -eq 1 ]]; then
 			# 当前是日间模式，转为夜间模式
-			xbrightness.sh = $disp 0.3 --temp
+			xbrightness.sh = $disp 0.4 --temp
 			notify-send -t 3000 "🌙夜间模式"
 		else
 			# 当前是夜间模式，转为日间模式
