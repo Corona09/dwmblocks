@@ -1,7 +1,5 @@
 #!/bin/sh
 
-echo $1 > $HOME/Downloads/sig.txt
-
 case $1 in
 	1)
 		# 左键点击, 程序菜单

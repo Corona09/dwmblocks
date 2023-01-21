@@ -1,8 +1,5 @@
 #!/bin/sh
 
-echo "$1" > ~/Downloads/sig.txt
-
-
 if ! command -v xbrightness.sh &> /dev/null; then
 	exit 1
 fi
