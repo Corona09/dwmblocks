@@ -10,6 +10,7 @@ case $1 in
 		status=`amixer get Master | tail -n1 | awk '{print $NF}'`
 		if [[ "$status" = "[on]" ]]; then
 			amixer -q set Speaker on
+			amixer -q set Headphone on
 		fi
 		;;
 	2|3)
