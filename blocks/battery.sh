@@ -14,11 +14,23 @@ if [[ "$status" = "Discharging" ]]; then
 	elif [ "$battery" -ge 30 ]; then bat_icon="";
 	elif [ "$battery" -ge 20 ]; then bat_icon="";
 	elif [ "$battery" -ge 10 ]; then bat_icon="";
-	else bat_icon=""; fi
+	else bat_icon="";fi
 elif [[ "$status" = "Full" ]]; then
 	bat_icon=""
 	battery="100"
 else
 	bat_icon=""
 fi
+
+if [[ $battery -le 15 ]]; then
+	[[ -f $HOME/.battery-low ]] || {
+		notify-send -t 3000 -u critical " 电池电量低, 请尽快充电!"
+		touch $HOME/.battery-low
+	}
+else
+	[[ -f $HOME/.battery-low ]] && {
+		rm -f $HOME/.battery-low
+	}
+fi
+
 printf "$bat_icon$battery%%"
