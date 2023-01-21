@@ -4,7 +4,7 @@ case $1 in
 	1)
 		# 左键点击, 程序菜单
 		[[ -f "$HOME/.cache/dmenu-applications" ]] && {
-			cat "$HOME/.cache/dmenu-applications" | dmenu | ${SHELL:-"/bin/sh"} &
+			cat "$HOME/.cache/dmenu-applications" | dmenu -fn "JetBrainsMono Nerd Font:style=medium:size=13" | ${SHELL:-"/bin/sh"} &
 		} || {
 			dmenu_run "$@"
 		}
@@ -15,7 +15,7 @@ case $1 in
 		;;
 	3)
 		# 右键点击, 电源菜单
-		dwm-powermenu
+		dwm-powermenu -fn "JetBrainsMono Nerd Font:style=medium:size=13"
 		;;
 	4)
 		# 鼠标滑轮上滑, 切换上一张壁纸
