@@ -1,7 +1,8 @@
 #!/bin/sh
 
-battery=`acpi | awk -F ' ' '{print $4}' | awk -F ',' '{print $1}' | awk -F '%' '{print $1}'`
-status=`acpi | awk -F ' ' '{print $3}' | awk -F ',' '{print $1}'`
+a=$(acpi | tail -n1)
+battery=`echo "$a" | awk -F ' ' '{print $4}' | awk -F ',' '{print $1}' | awk -F '%' '{print $1}'`
+status=`echo "$a" | awk -F ' ' '{print $3}' | sed 's/,//'`
 if [[ "$status" = "Discharging" ]]; then
 	if   [ "$battery" -ge 95 ]; then bat_icon="";
 	elif [ "$battery" -ge 90 ]; then bat_icon="";
@@ -14,6 +15,9 @@ if [[ "$status" = "Discharging" ]]; then
 	elif [ "$battery" -ge 20 ]; then bat_icon="";
 	elif [ "$battery" -ge 10 ]; then bat_icon="";
 	else bat_icon=""; fi
+elif [[ "$status" = "Full" ]]; then
+	bat_icon=""
+	battery="100"
 else
 	bat_icon=""
 fi
