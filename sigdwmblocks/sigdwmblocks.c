@@ -8,9 +8,7 @@
 #include <string.h>
 
 #define NILL                            INT_MIN
-// #define LOCKFILE                        "/var/local/dwmblocks/dwmblocks.pid"
-
-static char lockfile[64];
+#define LOCKFILE                        "/var/local/dwmblocks/dwmblocks.pid"
 
 int
 parsesignal(char *arg)
@@ -57,8 +55,7 @@ sendsignal(int sig, union sigval sv)
 	int fd;
 	struct flock fl;
 
-	// if ((fd = open(LOCKFILE, O_RDONLY)) == -1) {
-	if ((fd = open(lockfile, O_RDONLY)) == -1) {
+	if ((fd = open(LOCKFILE, O_RDONLY)) == -1) {
 		if (errno == ENOENT) {
 			fputs("Error: no running instance of dwmblocks.\n", stderr);
 			exit(3);
@@ -97,9 +94,6 @@ main(int argc, char *argv[])
 	int sig;
 	union sigval sv;
 
-	/* 获取 lockfile 文件路径 */
-	strcpy(lockfile, getenv("HOME"));
-	strncat(lockfile, "/.local/dwmblocks/dwmblocks.pid", 63-strlen(lockfile));
 
 	if (argc < 2 || argc > 3) {
 		fputs("Usage: sigdwmblocks <signal> [<sigval>]\n", stderr);

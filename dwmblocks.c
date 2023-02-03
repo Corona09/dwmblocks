@@ -10,7 +10,7 @@
 #include <X11/Xlib.h>
 
 #define NILL                            INT_MIN
-// #define LOCKFILE                        "/var/local/dwmblocks/dwmblocks.pid"
+#define LOCKFILE                        "/var/local/dwmblocks/dwmblocks.pid"
 
 #define LENGTH(X)                       (sizeof X / sizeof X[0])
 
@@ -35,7 +35,6 @@ static void writepid(void);
 static Block *dirtyblock;
 static Display *dpy;
 static sigset_t blocksigmask;
-static char lockfile[64];
 
 void
 buttonhandler(int sig, siginfo_t *info, void *ucontext)
@@ -63,8 +62,7 @@ buttonhandler(int sig, siginfo_t *info, void *ucontext)
 void
 cleanup(void)
 {
-	// unlink(LOCKFILE);
-	unlink(lockfile);
+	unlink(LOCKFILE);
 	XStoreName(dpy, DefaultRootWindow(dpy), "");
 	XCloseDisplay(dpy);
 }
@@ -84,8 +82,7 @@ setupsignals(void)
 			continue;
 		if (block->signal > SIGRTMAX - SIGRTMIN) {
 			fprintf(stderr, "Error: SIGRTMIN + %d exceeds SIGRTMAX.\n", block->signal);
-			// unlink(LOCKFILE);
-			unlink(lockfile);
+			unlink(LOCKFILE);
 			XCloseDisplay(dpy);
 			exit(2);
 		}
@@ -273,8 +270,7 @@ writepid(void)
 	int fd;
 	struct flock fl;
 
-	// if ((fd = open(LOCKFILE, O_RDWR | O_CREAT | O_CLOEXEC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1) {
-	if ((fd = open(lockfile, O_RDWR | O_CREAT | O_CLOEXEC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1) {
+	if ((fd = open(LOCKFILE, O_RDWR | O_CREAT | O_CLOEXEC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1) {
 		perror("writepid - open");
 		exit(1);
 	}
@@ -308,15 +304,10 @@ main(int argc, char *argv[])
 {
 	int xfd;
 
-	/* 获取 dwmblocks.pid 文件路径 */
-	strcpy(lockfile, getenv("HOME"));
-	strncat(lockfile, "/.local/dwmblocks/dwmblocks.pid", 63-strlen(lockfile));
-
 	writepid();
 	if (!(dpy = XOpenDisplay(NULL))) {
 		fputs("Error: could not open display.\n", stderr);
-		// unlink(LOCKFILE);
-		unlink(lockfile);
+		unlink(LOCKFILE);
 		return 1;
 	}
 	xfd = ConnectionNumber(dpy);
