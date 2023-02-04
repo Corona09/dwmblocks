@@ -7,6 +7,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #include <X11/Xlib.h>
 
 #define NILL                            INT_MIN
@@ -310,7 +311,9 @@ main(int argc, char *argv[])
 
 	/* 获取 dwmblocks.pid 文件路径 */
 	strcpy(lockfile, getenv("HOME"));
-	strncat(lockfile, "/.local/dwmblocks/dwmblocks.pid", 63-strlen(lockfile));
+	strcat(lockfile, "/.local/dwmblocks");
+	mkdir(lockfile, S_IRWXU | S_IRWXG | S_IRWXO);
+	strncat(lockfile, "/dwmblocks.pid", 63-strlen(lockfile));
 
 	writepid();
 	if (!(dpy = XOpenDisplay(NULL))) {
