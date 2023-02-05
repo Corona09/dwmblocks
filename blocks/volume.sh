@@ -1,7 +1,12 @@
 #!/bin/sh
 
 master_status=`amixer get Master | tail -n1 | awk -F ' ' '{print $NF}'`
-speaker_status=`amixer get Speaker | tail -n1 | awk -F ' ' '{print $NF}'`
+
+amixer | grep "Speaker" && {
+	speaker_status=`amixer get Speaker | tail -n1 | awk -F ' ' '{print $NF}'`
+} || {
+	speaker_status=""
+}
 
 if [ "$master_status" = "[off]" ] || [ "$speaker_status" = "[off]" ]; then
 	printf "婢 ---"
