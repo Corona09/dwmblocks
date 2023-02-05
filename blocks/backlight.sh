@@ -1,7 +1,6 @@
 #!/bin/sh
 
-brightness=`xbacklight -get`
-brightness=`echo "scale=0;$brightness/1" | bc`
+brightness=$(brightnessctl | grep "%" | sed -r "s/.*\((.*)%\).*/\1/")
 
 if ! command -v xgetcolortemp.sh &> /dev/null
 then
