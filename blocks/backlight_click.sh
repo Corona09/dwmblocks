@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 if ! command -v xbrightness.sh &> /dev/null; then
 	exit 1

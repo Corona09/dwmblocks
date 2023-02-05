@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 a=$(acpi | tail -n1)
 battery=`echo "$a" | awk -F ' ' '{print $4}' | awk -F ',' '{print $1}' | awk -F '%' '{print $1}'`

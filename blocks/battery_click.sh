@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 a=$(acpi | tail -n1)
 

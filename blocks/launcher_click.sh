@@ -1,13 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 case $1 in
 	1)
 		# 左键点击, 程序菜单
-		[[ -f "$HOME/.cache/dmenu-applications" ]] && {
-			cat "$HOME/.cache/dmenu-applications" | dmenu -fn "JetBrainsMono Nerd Font:style=medium:size=13" | ${SHELL:-"/bin/sh"} &
-		} || {
-			dmenu_run "$@"
-		}
+		dwm-launcher -fn "JetBrainsMono Nerd Font:style=medium:size=13"
 		;;
 	2)
 		# 中键点击, 随机壁纸

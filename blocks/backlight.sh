@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 brightness=$(brightnessctl | grep "%" | sed -r "s/.*\((.*)%\).*/\1/")
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 master_status=`amixer get Master | tail -n1 | awk -F ' ' '{print $NF}'`
 
